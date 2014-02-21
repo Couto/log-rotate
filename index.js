@@ -28,7 +28,7 @@ module.exports = function(file, options, cb) {
   }
 
   var dir   = path.dirname(file)
-    , name  = path.basename(file, path.extname(file))
+    , name  = path.basename(file)
     , count = options.count ? (options.count - 1) : null
     // regex for matching rotations of the current log
     , reg   = (options.matcher || new RegExp(name + "\\.\\d+\\.?"))
@@ -72,8 +72,8 @@ module.exports = function(file, options, cb) {
       }
       return rename(target, parts.join('.'));
     });
-    console.log(file)
-    var rotated = path.dirname(file) + path.sep + path.basename(file, path.extname(file)) + '.0' + path.extname(file);
+
+    var rotated = file +'.0';
     series(jobs, function(err) {
       fs.rename(file, rotated, function(err) {
         // compress the newly rotated file
